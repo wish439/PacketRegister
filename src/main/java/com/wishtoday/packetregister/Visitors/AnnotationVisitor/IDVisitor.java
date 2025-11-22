@@ -1,0 +1,24 @@
+package com.wishtoday.packetregister.Visitors.AnnotationVisitor;
+
+import com.wishtoday.packetregister.Data.PacketClassInfo;
+import com.wishtoday.packetregister.Manager.PacketClassManager;
+import net.minecraft.network.packet.CustomPayload;
+
+public class IDVisitor extends AnnotationClassPathVisitor {
+    private final CustomPayload.Id<CustomPayload> ID;
+    public IDVisitor(String classPath,
+            CustomPayload.Id<CustomPayload> id) {
+        super(classPath);
+        this.ID = id;
+    }
+
+    @Override
+    public void visitEnd() {
+        PacketClassManager
+                .getInstance()
+                .computeIfAbsent(classPath, s -> new PacketClassInfo())
+                .setID(ID);
+        System.out.println("classPath:" + this.classPath + "ID: " + ID);
+        super.visitEnd();
+    }
+}

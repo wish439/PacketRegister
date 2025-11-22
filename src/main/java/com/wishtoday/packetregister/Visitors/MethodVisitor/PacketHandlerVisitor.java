@@ -1,0 +1,56 @@
+package com.wishtoday.packetregister.Visitors.MethodVisitor;
+
+import com.wishtoday.packetregister.Data.PacketClassInfo;
+import com.wishtoday.packetregister.Manager.PacketClassManager;
+import com.wishtoday.packetregister.Util.ClassUtil;
+import com.wishtoday.packetregister.Util.MethodGetter;
+import com.wishtoday.packetregister.Util.PacketState;
+import org.objectweb.asm.AnnotationVisitor;
+import org.objectweb.asm.MethodVisitor;
+import org.objectweb.asm.Opcodes;
+
+import java.lang.reflect.Method;
+
+public class PacketHandlerVisitor extends MethodVisitor {
+    private final String classPath;
+    private final String methodName;
+    private final PacketState state;
+    private Method method;
+
+    public PacketHandlerVisitor(String classPath
+            , String methodName
+            , PacketState state) {
+        super(Opcodes.ASM9);
+        this.classPath = classPath;
+        this.methodName = methodName;
+        this.state = state;
+    }
+
+    @Override
+    public AnnotationVisitor visitAnnotation(
+            String descriptor
+            , boolean visible) {
+        if (!descriptor.equals("Lcom/wishtoday/Annotation/Handler;")) return super.visitAnnotation(descriptor, visible);
+        tryGetMethod();
+        return super.visitAnnotation(descriptor, visible);
+    }
+
+    private void tryGetMethod() {
+        Class<?> aClass = ClassUtil.getClass(this.classPath);
+        if (aClass == null) return;
+        Method get = new MethodGetter(this.classPath, this.methodName)
+                .loadAndGet(ClassUtil.getClass(this.classPath)
+                        , state.getContextClass());
+        if (get == null) return;
+        this.method = get;
+        System.out.println("PacketHandlerVisitor$$visitAnnotation Founded " + method.getName());
+    }
+
+    @Override
+    public void visitEnd() {
+        if (this.method == null) super.visitEnd();
+        PacketClassManager.getInstance()
+                .computeIfAbsent(this.classPath, e -> new PacketClassInfo<>())
+                .setHANDLER(this.method);
+    }
+}

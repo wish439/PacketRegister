@@ -1,0 +1,28 @@
+{
+  "schemaVersion": 1,
+  "id": "packetregister",
+  "version": "${version}",
+  "name": "PacketRegister",
+  "description": "",
+  "authors": [],
+  "contact": {},
+  "license": "GPL-3.0",
+  "icon": "assets/packetregister/icon.png",
+  "environment": "*",
+  "entrypoints": {
+    "client": [
+      "com.wishtoday.packetregister.client.PacketregisterClient"
+    ],
+    "main": [
+      "com.wishtoday.packetregister.Packetregister"
+    ]
+  },
+  "mixins": [
+    "packetregister.mixins.json"
+  ],
+  "depends": {
+    "fabricloader": ">=${loader_version}",
+    "fabric": "*",
+    "minecraft": "${minecraft_version}"
+  }
+}
