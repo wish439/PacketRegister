@@ -35,6 +35,9 @@ public class PacketClassInfo<T extends CustomPayload> {
 
     public boolean hasEmpty() {
         return this.CODEC == null ||
-                this.ID == null;
+                this.ID == null ||
+                this.clazz == null ||
+                this.state == null ||
+                this.HANDLER == null;
     }
 }

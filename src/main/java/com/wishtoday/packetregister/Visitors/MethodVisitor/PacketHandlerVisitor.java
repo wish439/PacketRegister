@@ -43,12 +43,11 @@ public class PacketHandlerVisitor extends MethodVisitor {
                         , state.getContextClass());
         if (get == null) return;
         this.method = get;
-        System.out.println("PacketHandlerVisitor$$visitAnnotation Founded " + method.getName());
     }
 
     @Override
     public void visitEnd() {
-        if (this.method == null) super.visitEnd();
+        if (this.method == null) return;
         PacketClassManager.getInstance()
                 .computeIfAbsent(this.classPath, e -> new PacketClassInfo<>())
                 .setHANDLER(this.method);
