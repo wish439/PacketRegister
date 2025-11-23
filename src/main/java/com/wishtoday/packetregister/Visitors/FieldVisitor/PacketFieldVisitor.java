@@ -1,8 +1,8 @@
 package com.wishtoday.packetregister.Visitors.FieldVisitor;
 
 import com.wishtoday.packetregister.Util.FieldGetter;
-import com.wishtoday.packetregister.Visitors.AnnotationVisitor.CodecVisitor;
-import com.wishtoday.packetregister.Visitors.AnnotationVisitor.IDVisitor;
+import com.wishtoday.packetregister.Visitors.AnnotationVisitor.Field.CodecVisitor;
+import com.wishtoday.packetregister.Visitors.AnnotationVisitor.Field.IDVisitor;
 import net.minecraft.network.PacketByteBuf;
 import net.minecraft.network.codec.PacketCodec;
 import net.minecraft.network.packet.CustomPayload;

@@ -1,7 +1,8 @@
-package com.wishtoday.packetregister.Visitors.AnnotationVisitor;
+package com.wishtoday.packetregister.Visitors.AnnotationVisitor.Field;
 
 import com.wishtoday.packetregister.Data.PacketClassInfo;
 import com.wishtoday.packetregister.Manager.PacketClassManager;
+import com.wishtoday.packetregister.Visitors.AnnotationVisitor.AnnotationClassPathVisitor;
 import net.minecraft.network.PacketByteBuf;
 import net.minecraft.network.codec.PacketCodec;
 import net.minecraft.network.packet.CustomPayload;

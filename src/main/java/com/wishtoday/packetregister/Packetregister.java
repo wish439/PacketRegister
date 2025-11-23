@@ -1,7 +1,9 @@
 package com.wishtoday.packetregister;
 
 import com.wishtoday.Annotation.*;
+import com.wishtoday.packetregister.ClassLoader.ReloadClassLoader;
 import com.wishtoday.packetregister.Register.PayloadRegister;
+import com.wishtoday.packetregister.Util.IdentifierCreator;
 import com.wishtoday.packetregister.Util.PacketState;
 import com.wishtoday.packetregister.Visitors.ClassVisitor.PacketClassVisitor;
 import io.github.classgraph.ClassGraph;
@@ -19,6 +21,7 @@ import net.minecraft.network.packet.CustomPayload;
 import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
 import org.objectweb.asm.ClassReader;
+import org.objectweb.asm.ClassWriter;
 
 import java.io.IOException;
 
@@ -27,30 +30,37 @@ public class Packetregister implements ModInitializer {
 
     @Override
     public void onInitialize() {
+        IdentifierCreator.setNameSpace("pctr");
         ScanResult scan = new ClassGraph()
                 .acceptPackages("com.wishtoday")
                 .enableAllInfo()
                 .scan();
         ClassInfoList list = scan.getClassesWithAnnotation(Packet.class);
         ClassInfoList initList = scan.getClassesWithAnnotation(Initialize.class);
+        ReloadClassLoader loader = new ReloadClassLoader(Packetregister.class.getClassLoader());
         for (ClassInfo info : list) {
             try {
                 ClassReader reader = new ClassReader(info.getName());
-                reader.accept(new PacketClassVisitor(), ClassReader.SKIP_CODE);
+//                reader.accept(new PacketClassVisitor(cw), ClassReader.SKIP_CODE);
+                reader.accept(new PacketClassVisitor(), 0);
             } catch (IOException e) {
-                log.error("asm exception {}",e.getMessage());
+                log.error("asm exception {}", e.toString());
             }
         }
         initList.forEach(classInfo -> {
             try {
                 Class.forName(classInfo.getName());
             } catch (ClassNotFoundException e) {
-                log.error("class {} not found {}",classInfo.getName(), e.getMessage());
+                log.error("class {} not found {}", classInfo.getName(), e.toString());
             }
         });
         scan.close();
+        ServerPlayConnectionEvents.JOIN.register((handler, sender, server) -> {
+            sender.sendPacket(new TestPayload(10));
+        });
     }
-    /*@Packet(PacketState.S2C)
+
+    @Packet(PacketState.S2C)
     public record TestPayload(int a) implements CustomPayload {
         @ID
         public static final CustomPayload.Id<TestPayload> ID = new Id<>(Identifier.of("pctr", "test"));
@@ -69,5 +79,5 @@ public class Packetregister implements ModInitializer {
         public Id<? extends CustomPayload> getId() {
             return ID;
         }
-    }*/
+    }
 }

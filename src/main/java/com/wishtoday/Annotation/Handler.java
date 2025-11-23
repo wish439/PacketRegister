@@ -7,7 +7,7 @@ import java.lang.annotation.Target;
 
 /*
 * params
-* first: The payload instant
+* first: The payload instance
 * second: ServerContext or Client Context
 * */
 
