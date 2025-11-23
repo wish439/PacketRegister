@@ -6,7 +6,6 @@ import com.wishtoday.packetregister.Util.ClassUtil;
 import com.wishtoday.packetregister.Util.PacketState;
 import com.wishtoday.packetregister.Visitors.AnnotationVisitor.Class.PacketVisitor;
 import com.wishtoday.packetregister.Visitors.FieldVisitor.PacketFieldVisitor;
-import com.wishtoday.packetregister.Visitors.MethodVisitor.IDInstanceMethodVisitor;
 import com.wishtoday.packetregister.Visitors.MethodVisitor.PacketHandlerVisitor;
 import lombok.Setter;
 import net.minecraft.network.packet.CustomPayload;

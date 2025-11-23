@@ -2,7 +2,6 @@ package com.wishtoday.packetregister;
 
 import com.wishtoday.Annotation.*;
 import com.wishtoday.packetregister.Util.IdentifierCreator;
-import com.wishtoday.packetregister.Util.PacketState;
 import com.wishtoday.packetregister.Visitors.ClassVisitor.PacketClassVisitor;
 import io.github.classgraph.ClassGraph;
 import io.github.classgraph.ClassInfo;
@@ -10,13 +9,6 @@ import io.github.classgraph.ClassInfoList;
 import io.github.classgraph.ScanResult;
 import lombok.extern.log4j.Log4j2;
 import net.fabricmc.api.ModInitializer;
-import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
-import net.fabricmc.fabric.api.networking.v1.ServerPlayConnectionEvents;
-import net.minecraft.network.PacketByteBuf;
-import net.minecraft.network.codec.PacketCodec;
-import net.minecraft.network.packet.CustomPayload;
-import net.minecraft.text.Text;
-import net.minecraft.util.Identifier;
 import org.objectweb.asm.ClassReader;
 
 import java.io.IOException;
@@ -49,12 +41,9 @@ public class Packetregister implements ModInitializer {
             }
         });
         scan.close();
-        ServerPlayConnectionEvents.JOIN.register((handler, sender, server) -> {
-            sender.sendPacket(new TestPayload(10));
-        });
     }
 
-    @Packet(PacketState.S2C)
+    /*@Packet(PacketState.S2C)
     public record TestPayload(int a) implements CustomPayload {
         @ID
         public static final CustomPayload.Id<TestPayload> ID = new Id<>(Identifier.of("pctr", "test"));
@@ -73,5 +62,5 @@ public class Packetregister implements ModInitializer {
         public Id<? extends CustomPayload> getId() {
             return ID;
         }
-    }
+    }*/
 }

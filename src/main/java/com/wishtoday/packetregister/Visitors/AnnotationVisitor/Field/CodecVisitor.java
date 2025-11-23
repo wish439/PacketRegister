@@ -22,7 +22,6 @@ public class CodecVisitor extends AnnotationClassPathVisitor {
         PacketClassManager.getInstance()
                 .computeIfAbsent(this.classPath, e -> new PacketClassInfo<>())
                 .setCODEC(CODEC);
-        System.out.println("classPath:" + this.classPath + "CODEC: " + CODEC);
         super.visitEnd();
     }
 }
