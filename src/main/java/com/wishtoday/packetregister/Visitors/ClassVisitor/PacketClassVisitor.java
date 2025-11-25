@@ -4,7 +4,6 @@ import com.wishtoday.Annotation.EmptyCodec;
 import com.wishtoday.Annotation.Packet;
 import com.wishtoday.packetregister.Data.PacketClassInfo;
 import com.wishtoday.packetregister.Manager.PacketClassManager;
-import com.wishtoday.packetregister.Packetregister;
 import com.wishtoday.packetregister.Util.ClassUtil;
 import com.wishtoday.packetregister.Util.PacketState;
 import com.wishtoday.packetregister.Visitors.AnnotationVisitor.Class.EmptyCodecVisitor;

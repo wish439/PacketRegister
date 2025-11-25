@@ -18,13 +18,8 @@ public class MethodGetter implements ReflectGetter<Method> {
     }
 
     @Override
-    public String getClassName() {
+    public String className() {
         return className;
-    }
-
-    @Override
-    public String getName() {
-        return methodName;
     }
 
     @Override
@@ -41,10 +36,10 @@ public class MethodGetter implements ReflectGetter<Method> {
     public Method loadAndGetWithArgs(Class<?>... args) {
         Class<?> clazz;
         try {
-            clazz = Class.forName(this.getClassName());
+            clazz = Class.forName(this.className());
             return clazz.getDeclaredMethod(this.methodName, args);
         } catch (ClassNotFoundException e) {
-            log.error("class {} doesn't exist", this.getClassName(), e);
+            log.error("class {} doesn't exist", this.className(), e);
             return null;
             //throw new IllegalArgumentException("class " + this.getClassName() + " doesn't exist" + e.getMessage());
         } catch (NoSuchMethodException e) {

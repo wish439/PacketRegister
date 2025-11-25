@@ -1,27 +1,10 @@
 package com.wishtoday.packetregister.Util;
 
-import lombok.Getter;
-
 import java.lang.reflect.Field;
 
-@Getter
-public class FieldGetter implements ReflectGetter<Field>{
-    private final String className;
-    private final String fieldName;
-    public FieldGetter(String className
-            , String fieldName) {
+public record FieldGetter(String className, String fieldName) implements ReflectGetter<Field> {
+    public FieldGetter {
         if (className.contains("/")) className = className.replace("/", ".");
-        this.className = className;
-        this.fieldName = fieldName;
-    }
-    public FieldGetter(Field field) {
-        this.className = field.getType().getName();
-        this.fieldName = field.getName();
-    }
-
-    @Override
-    public String getName() {
-        return fieldName;
     }
 
     @Override

@@ -8,7 +8,4 @@ public class PacketUtils {
         return new CustomPayload.Id<>(IdentifierCreator.create(path));
     }
 
-    /*public static PacketCodec<PacketByteBuf, ? extends CustomPayload> createEmptyCodec() {
-
-    }*/
 }

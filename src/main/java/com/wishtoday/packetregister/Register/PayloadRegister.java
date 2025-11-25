@@ -44,25 +44,11 @@ public class PayloadRegister {
     }
     private static void S2CRegister(PacketClassInfo<CustomPayload> info) {
         PayloadTypeRegistry.playS2C().register(info.getID(), info.getCODEC());
-        System.out.println("S2C Register Success");
-        /*ClientPlayNetworking.registerGlobalReceiver(info.getID(), (payload, context) -> {
-            try {
-                info.getHANDLER().invoke(null,info.getClazz().cast(payload), context);
-            } catch (IllegalAccessException | InvocationTargetException e) {
-                throw new RuntimeException(e);
-            }
-        });*/
+        log.info("S2C Register Success");
     }
     private static void C2SRegister(PacketClassInfo<CustomPayload> info) {
         PayloadTypeRegistry.playC2S().register(info.getID(), info.getCODEC());
-        System.out.println("C2S Register Success");
-        /*ServerPlayNetworking.registerGlobalReceiver(info.getID(), (payload, context) -> {
-            try {
-                info.getHANDLER().invoke(null,info.getClazz().cast(payload), context);
-            } catch (IllegalAccessException | InvocationTargetException e) {
-                throw new RuntimeException(e);
-            }
-        });*/
+        log.info("C2S Register Success");
     }
     private static void registerReceiver(PacketClassInfo<CustomPayload> info) {
         EnvType type = FabricLoader.getInstance().getEnvironmentType();
