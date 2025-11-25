@@ -22,7 +22,6 @@ public class ServerReceiverRegister implements ReceiverRegister{
                 throw new RuntimeException(e);
             }
         });
-        System.out.println("ServerReceiverRegister.register " + clazz.getSimpleName());
     }
 
     @Override

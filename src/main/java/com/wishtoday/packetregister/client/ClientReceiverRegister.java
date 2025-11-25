@@ -22,7 +22,6 @@ public class ClientReceiverRegister implements ReceiverRegister {
                 throw new RuntimeException(e);
             }
         });
-        System.out.println("ClientReceiverRegister.register " + clazz.getSimpleName());
     }
     @Override
     public EnvType getEnvType() {
