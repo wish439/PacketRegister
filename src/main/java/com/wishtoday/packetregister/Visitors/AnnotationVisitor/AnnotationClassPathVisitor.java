@@ -7,7 +7,7 @@ import org.objectweb.asm.Opcodes;
 @Getter
 public abstract class AnnotationClassPathVisitor extends AnnotationVisitor {
     protected String classPath;
-    protected AnnotationClassPathVisitor(String classPath) {
+    public AnnotationClassPathVisitor(String classPath) {
         super(Opcodes.ASM9);
         this.classPath = classPath;
     }
