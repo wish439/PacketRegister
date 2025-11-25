@@ -30,6 +30,7 @@ public class EmptyCodecVisitor extends AnnotationClassPathVisitor {
                 .computeIfAbsent(this.classPath, s -> new PacketClassInfo<>())
                 .setCODEC(codec);
     }
+    @SuppressWarnings("unchecked")
     @Nullable
     private PacketCodec<PacketByteBuf, CustomPayload> getCodecFromClazz() {
         Class<? extends CustomPayload> clazz = (Class<? extends CustomPayload>) ClassUtil.getClass(classPath);
