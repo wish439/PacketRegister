@@ -1,7 +1,10 @@
 package com.wishtoday.packetregister.Visitors.ClassVisitor;
 
+import com.wishtoday.Annotation.EmptyCodec;
+import com.wishtoday.Annotation.Packet;
 import com.wishtoday.packetregister.Data.PacketClassInfo;
 import com.wishtoday.packetregister.Manager.PacketClassManager;
+import com.wishtoday.packetregister.Packetregister;
 import com.wishtoday.packetregister.Util.ClassUtil;
 import com.wishtoday.packetregister.Util.PacketState;
 import com.wishtoday.packetregister.Visitors.AnnotationVisitor.Class.EmptyCodecVisitor;
@@ -42,10 +45,10 @@ public class PacketClassVisitor extends ClassVisitor {
 
     @Override
     public AnnotationVisitor visitAnnotation(String descriptor, boolean visible) {
-        if (descriptor.equals("Lcom/wishtoday/Annotation/Packet;")) {
+        if (descriptor.equals(Type.getDescriptor(Packet.class))) {
             return new PacketVisitor(this.classPath, this);
         }
-        if (descriptor.equals("Lcom/wishtoday/Annotation/EmptyCodec;")) {
+        if (descriptor.equals(Type.getDescriptor(EmptyCodec.class))) {
             return new EmptyCodecVisitor(this.classPath);
         }
         return super.visitAnnotation(descriptor, visible);

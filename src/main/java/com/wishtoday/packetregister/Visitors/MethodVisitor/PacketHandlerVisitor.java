@@ -1,5 +1,6 @@
 package com.wishtoday.packetregister.Visitors.MethodVisitor;
 
+import com.wishtoday.Annotation.Handler;
 import com.wishtoday.packetregister.Data.PacketClassInfo;
 import com.wishtoday.packetregister.Manager.PacketClassManager;
 import com.wishtoday.packetregister.Util.ClassUtil;
@@ -9,6 +10,7 @@ import net.fabricmc.loader.api.FabricLoader;
 import org.objectweb.asm.AnnotationVisitor;
 import org.objectweb.asm.MethodVisitor;
 import org.objectweb.asm.Opcodes;
+import org.objectweb.asm.Type;
 
 import java.lang.reflect.Method;
 
@@ -31,7 +33,7 @@ public class PacketHandlerVisitor extends MethodVisitor {
     public AnnotationVisitor visitAnnotation(
             String descriptor
             , boolean visible) {
-        if (!descriptor.equals("Lcom/wishtoday/Annotation/Handler;")) return super.visitAnnotation(descriptor, visible);
+        if (!descriptor.equals(Type.getDescriptor(Handler.class))) return super.visitAnnotation(descriptor, visible);
         tryGetMethod();
         return super.visitAnnotation(descriptor, visible);
     }
