@@ -22,7 +22,7 @@ repositories {
 dependencies {
     implementation 'org.projectlombok:lombok:1.18.42'
     annotationProcessor 'org.projectlombok:lombok:1.18.42'
-    implementation 'io.github.classgraph:classgraph:4.8.184'
+    modImplementation include('io.github.classgraph:classgraph:4.8.184')
     // To change the versions see the gradle.properties file
     minecraft "com.mojang:minecraft:${project.minecraft_version}"
     mappings "net.fabricmc:yarn:${project.yarn_mappings}:v2"

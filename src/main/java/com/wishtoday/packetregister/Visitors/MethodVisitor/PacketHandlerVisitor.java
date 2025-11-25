@@ -5,9 +5,11 @@ import com.wishtoday.packetregister.Manager.PacketClassManager;
 import com.wishtoday.packetregister.Util.ClassUtil;
 import com.wishtoday.packetregister.Util.MethodGetter;
 import com.wishtoday.packetregister.Util.PacketState;
+import net.fabricmc.loader.api.FabricLoader;
 import org.objectweb.asm.AnnotationVisitor;
 import org.objectweb.asm.MethodVisitor;
 import org.objectweb.asm.Opcodes;
+import org.objectweb.asm.Type;
 
 import java.lang.reflect.Method;
 
@@ -38,9 +40,10 @@ public class PacketHandlerVisitor extends MethodVisitor {
     private void tryGetMethod() {
         Class<?> aClass = ClassUtil.getClass(this.classPath);
         if (aClass == null) return;
+        if (state.getEnvType() != FabricLoader.getInstance().getEnvironmentType()) return;
         Method get = new MethodGetter(this.classPath, this.methodName)
                 .loadAndGet(ClassUtil.getClass(this.classPath)
-                        , state.getContextClass());
+                        , ClassUtil.getClass(state.getContextClass()));
         if (get == null) return;
         this.method = get;
     }

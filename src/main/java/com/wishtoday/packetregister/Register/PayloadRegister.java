@@ -4,10 +4,13 @@ import com.wishtoday.Annotation.Initialize;
 import com.wishtoday.packetregister.Data.PacketClassInfo;
 import com.wishtoday.packetregister.Manager.PacketClassManager;
 import com.wishtoday.packetregister.Util.PacketState;
+import com.wishtoday.packetregister.client.ClientReceiverRegister;
 import lombok.extern.log4j.Log4j2;
+import net.fabricmc.api.EnvType;
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
 import net.fabricmc.fabric.api.networking.v1.PayloadTypeRegistry;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
+import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.network.packet.CustomPayload;
 
 import java.lang.reflect.InvocationTargetException;
@@ -27,6 +30,7 @@ public class PayloadRegister {
                 log.warn("Packet ID{}has null or empty", classInfo.getID());
                 continue;
             }
+            log.info("Packet ID{} will reg", classInfo.getID());
             chooseRegister(classInfo);
         }
     }
@@ -36,25 +40,40 @@ public class PayloadRegister {
             case S2C -> S2CRegister(info);
             case C2S -> C2SRegister(info);
         }
+        registerReceiver(info);
     }
     private static void S2CRegister(PacketClassInfo<CustomPayload> info) {
         PayloadTypeRegistry.playS2C().register(info.getID(), info.getCODEC());
-        ClientPlayNetworking.registerGlobalReceiver(info.getID(), (payload, context) -> {
+        System.out.println("S2C Register Success");
+        /*ClientPlayNetworking.registerGlobalReceiver(info.getID(), (payload, context) -> {
             try {
                 info.getHANDLER().invoke(null,info.getClazz().cast(payload), context);
             } catch (IllegalAccessException | InvocationTargetException e) {
                 throw new RuntimeException(e);
             }
-        });
+        });*/
     }
     private static void C2SRegister(PacketClassInfo<CustomPayload> info) {
         PayloadTypeRegistry.playC2S().register(info.getID(), info.getCODEC());
-        ServerPlayNetworking.registerGlobalReceiver(info.getID(), (payload, context) -> {
+        System.out.println("C2S Register Success");
+        /*ServerPlayNetworking.registerGlobalReceiver(info.getID(), (payload, context) -> {
             try {
                 info.getHANDLER().invoke(null,info.getClazz().cast(payload), context);
             } catch (IllegalAccessException | InvocationTargetException e) {
                 throw new RuntimeException(e);
             }
-        });
+        });*/
+    }
+    private static void registerReceiver(PacketClassInfo<CustomPayload> info) {
+        EnvType type = FabricLoader.getInstance().getEnvironmentType();
+        ReceiverRegister register;
+        switch (type) {
+            case CLIENT -> register = new ClientReceiverRegister();
+            case SERVER -> register = new ServerReceiverRegister();
+            default -> register = null;
+        }
+        if (register == null) return;
+        if (register.getEnvType() != info.getState().getEnvType()) return;
+        register.register(info.getID(), info.getHANDLER(), info.getClazz());
     }
 }

@@ -37,7 +37,6 @@ public class PacketClassInfo<T extends CustomPayload> {
         return this.CODEC == null ||
                 this.ID == null ||
                 this.clazz == null ||
-                this.state == null ||
-                this.HANDLER == null;
+                this.state == null;
     }
 }

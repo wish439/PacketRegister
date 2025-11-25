@@ -4,22 +4,18 @@ import com.wishtoday.Annotation.*;
 import com.wishtoday.packetregister.Util.IdentifierCreator;
 import com.wishtoday.packetregister.Util.PacketState;
 import com.wishtoday.packetregister.Visitors.ClassVisitor.PacketClassVisitor;
-import io.github.classgraph.ClassGraph;
-import io.github.classgraph.ClassInfo;
-import io.github.classgraph.ClassInfoList;
-import io.github.classgraph.ScanResult;
+import io.github.classgraph.*;
 import lombok.extern.log4j.Log4j2;
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayConnectionEvents;
-import net.minecraft.network.PacketByteBuf;
-import net.minecraft.network.codec.PacketCodec;
 import net.minecraft.network.packet.CustomPayload;
 import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
 import org.objectweb.asm.ClassReader;
 
 import java.io.IOException;
+import java.io.InputStream;
 
 @Log4j2
 public class Packetregister implements ModInitializer {
@@ -34,8 +30,9 @@ public class Packetregister implements ModInitializer {
         ClassInfoList list = scan.getClassesWithAnnotation(Packet.class);
         ClassInfoList initList = scan.getClassesWithAnnotation(Initialize.class);
         for (ClassInfo info : list) {
-            try {
-                ClassReader reader = new ClassReader(info.getName());
+            Resource resource = info.getResource();
+            try (InputStream open = resource.open()) {
+                ClassReader reader = new ClassReader(open);
                 reader.accept(new PacketClassVisitor(), 0);
             } catch (IOException e) {
                 log.error("asm exception {}", e.toString());

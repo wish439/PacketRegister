@@ -1,19 +1,21 @@
 package com.wishtoday.packetregister.Util;
 
 import lombok.Getter;
+import net.fabricmc.api.EnvType;
+import net.fabricmc.api.Environment;
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
 import org.objectweb.asm.Type;
 
 public enum PacketState {
-    S2C(ClientPlayNetworking.Context.class),
-    C2S(ServerPlayNetworking.Context.class);
+    S2C("net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking$Context", EnvType.CLIENT),
+    C2S("net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking$Context", EnvType.SERVER);
     @Getter
-    private final Class<?> contextClass;
+    private final String contextClass;
     @Getter
-    private final String contextClassPath;
-    PacketState(Class<?> contextClass) {
+    private final EnvType envType;
+    PacketState(String contextClass, EnvType envType) {
         this.contextClass = contextClass;
-        this.contextClassPath = Type.getDescriptor(this.contextClass);
+        this.envType = envType;
     }
 }

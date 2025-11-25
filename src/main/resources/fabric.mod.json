@@ -10,9 +10,6 @@
   "icon": "assets/packetregister/icon.png",
   "environment": "*",
   "entrypoints": {
-    "client": [
-      "com.wishtoday.packetregister.client.PacketregisterClient"
-    ],
     "main": [
       "com.wishtoday.packetregister.Packetregister"
     ]
