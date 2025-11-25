@@ -26,7 +26,7 @@ public class PayloadRegister {
         Collection<PacketClassInfo<CustomPayload>> info = PacketClassManager.getInstance()
                 .getAllPacketClassInfo();
         for (PacketClassInfo<CustomPayload> classInfo : info) {
-            if (classInfo.hasEmpty()) {
+            if (classInfo.registerInfoHasEmpty()) {
                 log.warn("Packet ID{}has null or empty", classInfo.getID());
                 continue;
             }
@@ -74,6 +74,6 @@ public class PayloadRegister {
         }
         if (register == null) return;
         if (register.getEnvType() != info.getState().getEnvType()) return;
-        register.register(info.getID(), info.getHANDLER(), info.getClazz());
+        register.register(info);
     }
 }

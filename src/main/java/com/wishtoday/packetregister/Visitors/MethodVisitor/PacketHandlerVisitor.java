@@ -9,7 +9,6 @@ import net.fabricmc.loader.api.FabricLoader;
 import org.objectweb.asm.AnnotationVisitor;
 import org.objectweb.asm.MethodVisitor;
 import org.objectweb.asm.Opcodes;
-import org.objectweb.asm.Type;
 
 import java.lang.reflect.Method;
 
@@ -42,8 +41,11 @@ public class PacketHandlerVisitor extends MethodVisitor {
         if (aClass == null) return;
         if (state.getEnvType() != FabricLoader.getInstance().getEnvironmentType()) return;
         Method get = new MethodGetter(this.classPath, this.methodName)
-                .loadAndGet(ClassUtil.getClass(this.classPath)
-                        , ClassUtil.getClass(state.getContextClass()));
+                .loadAndGetWithArgs(ClassUtil.getClass(this.classPath)
+                        , ClassUtil.getClass(
+                                this.state.getContextClass()
+                        )
+                );
         if (get == null) return;
         this.method = get;
     }

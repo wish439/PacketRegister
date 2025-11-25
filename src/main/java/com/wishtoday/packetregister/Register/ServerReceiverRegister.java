@@ -1,5 +1,6 @@
 package com.wishtoday.packetregister.Register;
 
+import lombok.extern.log4j.Log4j2;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
 import net.minecraft.network.packet.CustomPayload;
@@ -7,6 +8,7 @@ import net.minecraft.network.packet.CustomPayload;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 
+@Log4j2
 public class ServerReceiverRegister implements ReceiverRegister{
     EnvType type;
     public ServerReceiverRegister() {

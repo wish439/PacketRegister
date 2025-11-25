@@ -17,7 +17,7 @@ public class IDVisitor extends AnnotationClassPathVisitor {
     public void visitEnd() {
         PacketClassManager
                 .getInstance()
-                .computeIfAbsent(classPath, s -> new PacketClassInfo())
+                .computeIfAbsent(classPath, s -> new PacketClassInfo<>())
                 .setID(ID);
         super.visitEnd();
     }

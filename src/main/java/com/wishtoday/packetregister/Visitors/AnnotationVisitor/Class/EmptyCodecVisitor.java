@@ -23,7 +23,7 @@ public class EmptyCodecVisitor extends AnnotationClassPathVisitor {
     public void visitEnd() {
         PacketCodec<PacketByteBuf, CustomPayload> codec = getCodecFromClazz();
         if (codec == null) {
-            log.warn("{} register emptyCodec fail", this.classPath);
+            log.warn("{} register emptyCodec failed", this.classPath);
             return;
         }
         PacketClassManager.getInstance()

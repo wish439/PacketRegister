@@ -1,7 +1,6 @@
 package com.wishtoday.packetregister.Data;
 
 import com.wishtoday.packetregister.Util.PacketState;
-import lombok.Data;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -10,33 +9,63 @@ import net.minecraft.network.codec.PacketCodec;
 import net.minecraft.network.packet.CustomPayload;
 
 import java.lang.reflect.Method;
-import java.util.Objects;
 
 @NoArgsConstructor
-@Setter
-@Getter
 public class PacketClassInfo<T extends CustomPayload> {
-    private CustomPayload.Id<T> ID;
-    private PacketCodec<PacketByteBuf, T> CODEC;
+    private RegisterInfo<T> registerInfo;
+    @Getter
+    @Setter
     private Method HANDLER;
+    @Getter
+    @Setter
     private PacketState state;
+    @Getter
+    @Setter
     private Class<? extends CustomPayload> clazz;
+
+    public void setID(CustomPayload.Id<T> id) {
+        checkRegisterInfo();
+        this.registerInfo.setID(id);
+    }
+
+    public void setCODEC(PacketCodec<PacketByteBuf, T> codec) {
+        checkRegisterInfo();
+        this.registerInfo.setCODEC(codec);
+    }
+
+    public CustomPayload.Id<T> getID() {
+        checkRegisterInfo();
+        return this.registerInfo.getID();
+    }
+
+    public PacketCodec<PacketByteBuf, T> getCODEC() {
+        checkRegisterInfo();
+        return this.registerInfo.getCODEC();
+    }
+
     @Override
     public boolean equals(Object o) {
-        if (o == null || getClass() != o.getClass()) return false;
-        PacketClassInfo<?> that = (PacketClassInfo<?>) o;
-        return Objects.equals(ID, that.ID);
+        if (!(o instanceof PacketClassInfo<?> that)) return false;
+        return this.registerInfo.equals(that.registerInfo);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(ID);
+        return this.registerInfo.hashCode();
     }
 
     public boolean hasEmpty() {
-        return this.CODEC == null ||
-                this.ID == null ||
+        return this.registerInfo.getCODEC() == null ||
+                this.registerInfo.getID() == null ||
                 this.clazz == null ||
+                this.HANDLER == null ||
                 this.state == null;
+    }
+
+    public boolean registerInfoHasEmpty() {
+        return this.registerInfo.hasEmpty();
+    }
+    private void checkRegisterInfo() {
+        if (this.registerInfo == null) this.registerInfo = new RegisterInfo<>();
     }
 }
